@@ -15,7 +15,6 @@
   }
 
   function onDeleteToDoTask(toDoTask: ToDoTask) {
-    const updatedTodos = todos.filter((todo) => todo.id !== toDoTask.id)
     todos = todos.filter((todo) => todo.id !== toDoTask.id)
   }
 </script>
