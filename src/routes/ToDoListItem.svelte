@@ -5,14 +5,19 @@
 </script>
 
 <script lang="ts">
+  import Checkbox from '@smui/checkbox'
+  import FormField from '@smui/form-field'
+  import Button from '@smui/button'
+
   export let onCompleteToDoTask: OnCompleteToDoTask
   export let onDeleteToDoTask: OnDeleteToDoTask
   export let todo: ToDoTask
 
-  let isChecked = todo.status === 'complete'
+  let checked = todo.status === 'complete'
 
   function handleCompleteToDoTask() {
     onCompleteToDoTask?.(todo)
+    checked = !checked
   }
 
   function handleDeleteToDoTask() {
@@ -22,13 +27,11 @@
 
 <div class="todo-list-item">
   <li class="todo-item {todo.status === 'complete' ? 'completed' : ''}">
-    <input
-      bind:checked={isChecked}
-      on:change={handleCompleteToDoTask}
-      type="checkbox"
-    />
+    <FormField>
+      <Checkbox bind:checked on:click={handleCompleteToDoTask} />
+    </FormField>
     {todo.title}
-    <button on:click={handleDeleteToDoTask}> delete </button>
+    <Button variant="raised" on:click={handleDeleteToDoTask}>delete</Button>
   </li>
 </div>
 
