@@ -1,9 +1,7 @@
-<header>
-	header
-</header>
+<header>header</header>
 
 <style>
-	header {
-		display: flex;
-	}
+  header {
+    display: flex;
+  }
 </style>
