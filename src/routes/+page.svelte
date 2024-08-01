@@ -16,9 +16,9 @@
   section {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex: 0.6;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex: 1;
   }
 
   h1 {

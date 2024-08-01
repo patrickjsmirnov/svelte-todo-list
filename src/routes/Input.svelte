@@ -6,6 +6,9 @@
 </script>
 
 <script lang="ts">
+  import Textfield from '@smui/textfield'
+  import Button from '@smui/button'
+
   export let onAddToDoTask: OnAddToDoTask
   let newTaskTitle = ''
 
@@ -19,12 +22,35 @@
   }
 </script>
 
-<div class="add-new-task-input">
-  <form>
-    <input type="text" bind:value={newTaskTitle} />
-    <button on:click={handleAddToDoTask}> Add </button>
-  </form>
-</div>
+<form class="form">
+  <Textfield
+    class="textfield"
+    variant="outlined"
+    bind:value={newTaskTitle}
+    label="Task text"
+  />
+  <Button
+    class="button"
+    variant="unelevated"
+    color="primary"
+    on:click={handleAddToDoTask}>Add</Button
+  >
+</form>
 
 <style>
+  .form {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .form > :global(.button) {
+    height: 56px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .form > :global(.textfield) {
+    flex: 1;
+  }
 </style>

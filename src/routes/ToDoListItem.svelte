@@ -7,7 +7,7 @@
 <script lang="ts">
   import Checkbox from '@smui/checkbox'
   import FormField from '@smui/form-field'
-  import Button from '@smui/button'
+  import IconButton from '@smui/icon-button'
 
   export let onCompleteToDoTask: OnCompleteToDoTask
   export let onDeleteToDoTask: OnDeleteToDoTask
@@ -25,15 +25,27 @@
   }
 </script>
 
-<div class="todo-list-item">
-  <li class="todo-item {todo.status === 'complete' ? 'completed' : ''}">
-    <FormField>
-      <Checkbox bind:checked on:click={handleCompleteToDoTask} />
-    </FormField>
+<li class="todo-list-item">
+  <FormField>
+    <Checkbox bind:checked on:click={handleCompleteToDoTask} />
+  </FormField>
+  <span class={todo.status === 'complete' ? 'completed' : 'test'}>
     {todo.title}
-    <Button variant="raised" on:click={handleDeleteToDoTask}>delete</Button>
-  </li>
-</div>
+  </span>
+  <IconButton
+    class="material-icons"
+    on:click={handleDeleteToDoTask}
+    ripple={false}>delete</IconButton
+  >
+</li>
 
 <style>
+  .todo-list-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .completed {
+    text-decoration: line-through;
+  }
 </style>

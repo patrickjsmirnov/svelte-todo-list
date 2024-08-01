@@ -4,14 +4,25 @@
   import ToDoList from './ToDoList.svelte'
 
   let todos: ToDoTask[] = []
+  let completedCount: number = 0
+
+  $: completedCount = todos.filter((todo) => todo.status === 'complete').length
 
   function onAddToDoTask(toDoTask: ToDoTask) {
     todos = [toDoTask, ...todos]
   }
 
   function onCompleteToDoTask(toDoTask: ToDoTask) {
-    const updatedTodos = todos.filter((todo) => todo.id !== toDoTask.id)
-    todos = [...updatedTodos, toDoTask]
+    todos = todos.map((todo) => {
+      if (todo.id === toDoTask.id) {
+        return {
+          ...toDoTask,
+          status: 'complete',
+        }
+      }
+
+      return todo
+    })
   }
 
   function onDeleteToDoTask(toDoTask: ToDoTask) {
@@ -19,10 +30,16 @@
   }
 </script>
 
-<div class="todo-container">
+<div class="todo">
+  <p>Task Done: {completedCount} / {todos.length}</p>
   <Input {onAddToDoTask} />
   <ToDoList {todos} {onCompleteToDoTask} {onDeleteToDoTask} />
 </div>
 
 <style>
+  .todo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 </style>

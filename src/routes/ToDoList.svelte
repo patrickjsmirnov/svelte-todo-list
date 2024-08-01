@@ -12,13 +12,11 @@
   export let todos: ToDoTask[] = []
 </script>
 
-<div class="todo-list-container">
-  <ul class="todo-list">
-    {#each todos as todo (todo.id)}
-      <ToDoListItem {todo} {onCompleteToDoTask} {onDeleteToDoTask} />
-    {/each}
-  </ul>
-</div>
+<ul class="todo-list">
+  {#each todos as todo (todo.id)}
+    <ToDoListItem {todo} {onCompleteToDoTask} {onDeleteToDoTask} />
+  {/each}
+</ul>
 
 <style>
   .todo-list {
@@ -26,5 +24,6 @@
     flex-direction: column;
     list-style: none;
     gap: 16px;
+    padding-left: 0;
   }
 </style>
