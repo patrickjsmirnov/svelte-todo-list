@@ -13,10 +13,13 @@
   export let onDeleteToDoTask: OnDeleteToDoTask
   export let todo: ToDoTask
 
-  let checked = todo.status === 'complete'
+  let checked = todo.status === 'complete' ?? false
 
   function handleCompleteToDoTask() {
-    onCompleteToDoTask?.(todo)
+    onCompleteToDoTask?.({
+      ...todo,
+      status: todo.status === 'complete' ? 'incomplete' : 'complete',
+    })
     checked = !checked
   }
 
@@ -29,7 +32,7 @@
   <FormField>
     <Checkbox bind:checked on:click={handleCompleteToDoTask} />
   </FormField>
-  <span class={todo.status === 'complete' ? 'completed' : 'test'}>
+  <span class={todo.status === 'complete' ? 'completed' : ''}>
     {todo.title}
   </span>
   <IconButton

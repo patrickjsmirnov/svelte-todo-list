@@ -2,38 +2,36 @@
   import type { ToDoTask } from '../types'
   import Input from './Input.svelte'
   import ToDoList from './ToDoList.svelte'
-
-  let todos: ToDoTask[] = []
-  let completedCount: number = 0
-
-  $: completedCount = todos.filter((todo) => todo.status === 'complete').length
+  import { todos, completedCount } from '../store'
 
   function onAddToDoTask(toDoTask: ToDoTask) {
-    todos = [toDoTask, ...todos]
+    todos.update((current) => [toDoTask, ...current])
   }
 
   function onCompleteToDoTask(toDoTask: ToDoTask) {
-    todos = todos.map((todo) => {
-      if (todo.id === toDoTask.id) {
-        return {
-          ...toDoTask,
-          status: 'complete',
+    console.log('toDoTask = ', toDoTask)
+    todos.update((current) =>
+      current.map((todo) => {
+        if (todo.id === toDoTask.id) {
+          return {
+            ...toDoTask,
+            status: toDoTask.status,
+          }
         }
-      }
-
-      return todo
-    })
+        return todo
+      }),
+    )
   }
 
   function onDeleteToDoTask(toDoTask: ToDoTask) {
-    todos = todos.filter((todo) => todo.id !== toDoTask.id)
+    todos.update((current) => current.filter((todo) => todo.id !== toDoTask.id))
   }
 </script>
 
 <div class="todo">
-  <p>Task Done: {completedCount} / {todos.length}</p>
+  <p>Task Done: {$completedCount} / {$todos.length}</p>
   <Input {onAddToDoTask} />
-  <ToDoList {todos} {onCompleteToDoTask} {onDeleteToDoTask} />
+  <ToDoList todos={$todos} {onCompleteToDoTask} {onDeleteToDoTask} />
 </div>
 
 <style>
