@@ -2,14 +2,14 @@
   import type { ToDoTask } from '../types'
   import Input from './Input.svelte'
   import ToDoList from './ToDoList.svelte'
-  import { todos, completedCount } from '../store'
+  import TopBar from './TopBar.svelte'
+  import { todos } from '../store'
 
-  function onAddToDoTask(toDoTask: ToDoTask) {
+  function handleAddToDoTask(toDoTask: ToDoTask) {
     todos.update((current) => [toDoTask, ...current])
   }
 
-  function onCompleteToDoTask(toDoTask: ToDoTask) {
-    console.log('toDoTask = ', toDoTask)
+  function handleCompleteToDoTask(toDoTask: ToDoTask) {
     todos.update((current) =>
       current.map((todo) => {
         if (todo.id === toDoTask.id) {
@@ -23,15 +23,32 @@
     )
   }
 
-  function onDeleteToDoTask(toDoTask: ToDoTask) {
+  function handleDeleteToDoTask(toDoTask: ToDoTask) {
     todos.update((current) => current.filter((todo) => todo.id !== toDoTask.id))
+  }
+
+  function handleClearAllToDoTasks() {
+    todos.update(() => [])
+  }
+
+  function handleClearCompletedToDoTasks() {
+    todos.update((current) =>
+      current.filter((todo) => todo.status === 'incomplete'),
+    )
   }
 </script>
 
 <div class="todo">
-  <p>Task Done: {$completedCount} / {$todos.length}</p>
-  <Input {onAddToDoTask} />
-  <ToDoList todos={$todos} {onCompleteToDoTask} {onDeleteToDoTask} />
+  <TopBar
+    onClearAllToDoTasks={handleClearAllToDoTasks}
+    onClearCompletedToDoTasks={handleClearCompletedToDoTasks}
+  />
+  <Input onAddToDoTask={handleAddToDoTask} />
+  <ToDoList
+    todos={$todos}
+    onCompleteToDoTask={handleCompleteToDoTask}
+    onDeleteToDoTask={handleDeleteToDoTask}
+  />
 </div>
 
 <style>
